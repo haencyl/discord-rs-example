@@ -26,3 +26,8 @@ cargo run --release
 
 - `/stats` - List Bot statistics like uptime and ping.
 - `/say` - Let the bot send a message.
+
+## Events
+
+- `ready` - Triggers when the bot is online, sets custom status.
+- `message` - Triggers on received message, waits for "hey" from a user and responds with "Hello!".
