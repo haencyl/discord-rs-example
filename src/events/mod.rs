@@ -1,3 +1,4 @@
+pub mod message;
 pub mod ready;
 
 use crate::{Data, commands::Error};
@@ -10,8 +11,13 @@ pub async fn event_handler(
   _data: &Data,
 ) -> Result<(), Error> {
   match event {
+    // Handle ready event
     serenity::FullEvent::Ready { data_about_bot } => {
       ready::handle(ctx, data_about_bot).await;
+    }
+    // Handle message event here as well
+    serenity::FullEvent::Message { new_message } => {
+      message::handle(ctx, new_message).await;
     }
     _ => {}
   }
