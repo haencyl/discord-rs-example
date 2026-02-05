@@ -30,4 +30,4 @@ cargo run --release
 ## Events
 
 - `ready` - Triggers when the bot is online, sets custom status.
-- `message` - Triggers on received message, waits for "hey" from a user and responds with "Hello!".
+- `message` - Triggers when the bot gets mentioned and responds with "Hello!".

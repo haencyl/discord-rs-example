@@ -9,8 +9,7 @@ pub async fn handle(ctx: &serenity::Context, message: &Message) {
       message.author.name, message.content
     );
 
-    let content_lower = message.content.to_lowercase();
-    if content_lower.contains("hey") {
+    if message.mentions_me(&ctx).await.unwrap_or(false) {
       match message.channel_id.say(ctx, "Hello!").await {
         Ok(sent_message) => {
           info!(
