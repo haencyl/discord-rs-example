@@ -4,9 +4,9 @@ use tracing::info;
 
 pub async fn handle(ctx: &serenity::Context, ready: &serenity::Ready) {
   info!(
-      bot_id = %ready.user.id,
-      bot_name = %ready.user.name,
-      "Bot is now online",
+    bot_id = %ready.user.id,
+    bot_name = %ready.user.name,
+    "Bot is now online",
   );
 
   ctx.set_presence(
