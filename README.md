@@ -21,6 +21,7 @@ cargo run --release
 
 - DISCORD_TOKEN: The secret token from the [Discord Developer Portal](https://discord.com/developers/applications).
 - RUST_LOG: Controls the logging verbosity. Setting it to info provides standard execution updates, while debug shows more detailed event data.
+- PREFIX: The prefix for text commands (default: `*`).
 
 ## Commands
 

@@ -80,7 +80,7 @@ async fn main() {
       },
       // Optional prefix commands with *
       prefix_options: poise::PrefixFrameworkOptions {
-        prefix: Some("*".into()),
+        prefix: Some(std::env::var("PREFIX").unwrap_or_else(|_| "*".into())),
         ..Default::default()
       },
       ..Default::default()
