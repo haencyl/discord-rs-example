@@ -2,7 +2,11 @@ use super::{Context, Error};
 use poise::CreateReply;
 
 /// Reregister all slash commands
-#[poise::command(slash_command, default_member_permissions = "ADMINISTRATOR")]
+#[poise::command(
+  slash_command,
+  owners_only,
+  default_member_permissions = "ADMINISTRATOR"
+)]
 pub async fn register(ctx: Context<'_>) -> Result<(), Error> {
   let handle = ctx
     .send(
