@@ -19,7 +19,6 @@ async fn main() {
   tracing_subscriber::fmt()
     .with_env_filter(EnvFilter::from_default_env())
     .with_timer(ChronoLocal::default())
-    .with_ansi(true)
     .pretty()
     .init();
 
