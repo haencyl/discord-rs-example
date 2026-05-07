@@ -7,6 +7,8 @@ pub async fn say(
   ctx: Context<'_>,
   #[description = "Message to say"] message: String,
 ) -> Result<(), Error> {
+  ctx.channel_id().say(ctx, &message).await?;
+
   ctx
     .send(
       CreateReply::default()
@@ -14,7 +16,6 @@ pub async fn say(
         .ephemeral(true),
     )
     .await?;
-  ctx.channel_id().say(ctx, message).await?;
 
   Ok(())
 }
