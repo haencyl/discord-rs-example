@@ -1,5 +1,5 @@
-use ::serenity::all::{ActivityData, OnlineStatus};
 use poise::serenity_prelude as serenity;
+use serenity::{ActivityData, OnlineStatus};
 use tracing::info;
 
 pub async fn handle(ctx: &serenity::Context, ready: &serenity::Ready) {

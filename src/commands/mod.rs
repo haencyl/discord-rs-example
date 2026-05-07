@@ -1,9 +1,8 @@
 pub mod register;
 pub mod say;
 pub mod stats;
-use crate::Data;
+use crate::{Data, Error};
 
-pub type Error = Box<dyn std::error::Error + Send + Sync>;
 pub type Context<'a> = poise::Context<'a, Data, Error>;
 
 pub fn commands() -> Vec<poise::Command<Data, Error>> {

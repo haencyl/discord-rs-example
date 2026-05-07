@@ -7,6 +7,8 @@ use tracing::{error, info};
 use tracing_subscriber::EnvFilter;
 use tracing_subscriber::fmt::time::ChronoLocal;
 
+pub type Error = Box<dyn std::error::Error + Send + Sync>;
+
 pub struct Data {
   pub start_time: Instant,
 }
@@ -30,12 +32,8 @@ async fn main() {
     .options(poise::FrameworkOptions {
       on_error: |error| {
         Box::pin(async move {
-          match error {
-            error => {
-              if let Err(e) = poise::builtins::on_error(error).await {
-                error!("Error while handling framework error: {e}");
-              }
-            }
+          if let Err(e) = poise::builtins::on_error(error).await {
+            error!("Error while handling framework error: {e}");
           }
         })
       },
@@ -85,10 +83,19 @@ async fn main() {
       },
       ..Default::default()
     })
-    .setup(|ctx, _ready, framework| {
+    .setup(|ctx, ready, framework| {
       Box::pin(async move {
         info!("Registering slash commands globally");
         poise::builtins::register_globally(ctx, &framework.options().commands).await?;
+
+        for guild in &ready.guilds {
+          if let Err(e) =
+            poise::builtins::register_in_guild::<Data, Error>(ctx, &[], guild.id).await
+          {
+            error!("Failed to clear guild commands in {}: {e}", guild.id);
+          }
+        }
+
         Ok(Data {
           start_time: Instant::now(),
         })
@@ -96,9 +103,22 @@ async fn main() {
     })
     .build();
 
-  let client = serenity::ClientBuilder::new(token, intents)
+  let mut client = serenity::ClientBuilder::new(token, intents)
     .framework(framework)
-    .await;
+    .await
+    .expect("Failed to create Discord client");
 
-  client.unwrap().start().await.unwrap();
+  let shard_manager = client.shard_manager.clone();
+
+  tokio::spawn(async move {
+    tokio::signal::ctrl_c()
+      .await
+      .expect("Failed to listen for Ctrl+C signal");
+    shard_manager.shutdown_all().await;
+  });
+
+  client
+    .start()
+    .await
+    .expect("Discord client failed to start");
 }

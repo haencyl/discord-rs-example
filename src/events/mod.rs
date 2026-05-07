@@ -1,7 +1,7 @@
 pub mod message;
 pub mod ready;
 
-use crate::{Data, commands::Error};
+use crate::{Data, Error};
 use poise::serenity_prelude as serenity;
 
 pub async fn event_handler(
