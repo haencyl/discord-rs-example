@@ -13,7 +13,7 @@ pub struct Data {
   pub start_time: Instant,
 }
 
-#[tokio::main(flavor = "current_thread")]
+#[tokio::main]
 async fn main() {
   // Custom logging config for human readable output
   tracing_subscriber::fmt()
