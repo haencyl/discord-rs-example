@@ -26,6 +26,7 @@ cargo run --release
 
 - `/stats` - List Bot statistics like uptime and ping.
 - `/say` - Let the bot send a message.
+- `/register` - Reregister all slash commands.
 
 ## Events
 
